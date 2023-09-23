@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const Data = require('../models/dataModel')//Importing dataModel into Data
 
 //GET all data
 router.get('/', (req, res) => {
@@ -12,7 +13,18 @@ router.get('/:id', (req, res) => {
 })
 
 //POST new data
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+
+    const { name, age, DOB } = req.body
+
+    try {
+        const data = await Data.create({ name, age, DOB })
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+        return;
+    }
+
     res.send('This is the POST thing')
 })
 
