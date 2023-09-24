@@ -1,41 +1,20 @@
 const express = require('express')
 const router = express.Router()
-const Data = require('../models/dataModel')//Importing dataModel into Data
+const { createData, getAllData, getSingleData, deleteData, updateData } = require('../controllers/dataControllers')
 
 //GET all data
-router.get('/', (req, res) => {
-    res.send('GET all data GET thing')
-})
+router.get('/', getAllData)
 
 //GET single data
-router.get('/:id', (req, res) => {
-    res.send('In an :id thing. It can change apparently. GET a single piece of data')
-})
+router.get('/:id', getSingleData)
 
 //POST new data
-router.post('/', async (req, res) => {
-
-    const { name, age, DOB } = req.body
-
-    try {
-        const data = await Data.create({ name, age, DOB })
-        res.status(200).json(data)
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-        return;
-    }
-
-    res.send('This is the POST thing')
-})
+router.post('/', createData)
 
 //DELETE a piece of data
-router.delete('/:id', (req, res) => {
-    res.send('DELETE a piece of data')
-})
+router.delete('/:id', deleteData)
 
 //UPDATE a piece of data
-router.patch('/:id', (req, res) => {
-    res.send('UPDATE some piece of data')
-})
+router.patch('/:id', updateData)
 
 module.exports = router
